@@ -1,5 +1,7 @@
 Chart.Guage.js
 ==============
 
-Geck-o-meter like Guage plugin for Chart.js [chartjs.org](http://www.chartjs.org)
+Geck-o-meter like Guage Extension for Chart.js [chartjs.org](http://www.chartjs.org)
+
+
 

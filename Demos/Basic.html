@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Basic Guage</title>
+	<meta http-equiv="Content-Type" Content="text/html;charset=utf-8"/>
+	<script src="file:///Users/scott.hill/Documents/Guage/bower_components/Chart.js/Chart.js" type="text/javascript" charset="utf-8"></script>
+	<script src="file:///Users/scott.hill/Documents/Guage/Chart.Guage.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="margin:0; background-size: cover; background: #494a4e;">
+<div style="width:80%; margin:20px auto;">
+<canvas id="basicGuage" style="border: 1px solid rgba(255,255,255,0.05);"></canvas>
+</div>
+</body>
+<script type="text/javascript">
+
+	var ctx = document.getElementById("basicGuage").getContext("2d");
+
+	//Init Data
+	var data = {
+		min: 0,
+		max: 200,
+		goal: 150,
+		value: 100,
+		radius: 50,
+		needleGood: false
+	};
+
+	//Guage Options
+	var options = {
+
+		guageLineColor: "rgba(241, 241, 243, .8)"
+
+	}
+
+	//Initilize Guage
+	var myGuage = new Chart(ctx).Guage(data, options);
+
+	function randomIntFromInterval(min,max)
+	{
+	    return Math.floor(Math.random()*(max-min+1)+min);
+	}
+
+	//Fake Periodic New Data Input
+	function fakeInput() 
+	{	
+			var value = randomIntFromInterval(0, 200)
+			var needleGood = randomIntFromInterval(0, 1);
+			var data = {
+				value: value,
+				needleGood: needleGood
+			}
+
+			myGuage.update(data);
+
+	}
+
+	var fake = setInterval(fakeInput, 5000);
+</script>
+</html>

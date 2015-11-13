@@ -1,0 +1,30 @@
+{
+  "name": "Chart.Guage.js",
+  "authors": [
+    "Scott Hill <scott.hill@LifeChurch.tv>"
+  ],
+  "description": "A Geck-o-meter style guage plugin for Chart.js",
+  "main": "Chart.Guage.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "Guage",
+    "Chart",
+    "Chart.js",
+    "Widget",
+    "Dashboards"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Chart.js": "~1.0.2"
+  }
+}

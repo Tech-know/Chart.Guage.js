@@ -9,10 +9,14 @@
 </head>
 <body style="margin:0; background-size: cover; background: #494a4e;">
 <div style="width:80%; margin:20px auto;">
-<canvas id="basicGuage" style="border: 1px solid rgba(255,255,255,0.05);"></canvas>
+<div style="width:30%;">
+	<canvas id="basicGuage" style="border: 1px solid rgba(255,255,255,0.05);"></canvas>
+</div>
 </div>
 </body>
 <script type="text/javascript">
+
+	Chart.defaults.global.responsive = true;
 
 	var ctx = document.getElementById("basicGuage").getContext("2d");
 
@@ -22,7 +26,6 @@
 		max: 200,
 		goal: 150,
 		value: 100,
-		radius: 50,
 		needleGood: false
 	};
 

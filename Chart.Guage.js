@@ -52,7 +52,12 @@
             displayLables: true,
 
             //Display % to Goal 
-            displayPercent: true
+            displayPercent: true,
+
+            //Auto Size the Guage 
+            //- If false X,Y and Radius values must be provided
+            //- As well responsive resizing will not work
+            autoSize: true,
 
 	}
 
@@ -72,9 +77,9 @@
     		this.max = data.max;
     		this.goal = data.goal;
     		this.value = 0; 
-    		this.radius = data.radius;
-    		this.origin_X = this.present(data.x) ? data.x : this.chart.canvas.width / 2;
-    		this.origin_Y = this.present(data.y) ? data.y : 3 * this.chart.canvas.height / 4;
+    		this.radius = this.present(data.radius) && !this.options.autoSize ? data.radius : this.radius = 3 * this.chart.height / 8;
+    		this.origin_X = this.present(data.x) && !this.options.autoSize ? data.x : this.chart.width / 2;
+    		this.origin_Y = this.present(data.y) && !this.options.autoSize ? data.y : 3 * this.chart.height / 4;
     		this.guageWeight = this.options.guageWeight;
     		this.LineColor = this.options.guageLineColor;
     		this.GoalColor = this.options.guageGoalColor;
@@ -111,44 +116,64 @@
 
     	toRad: function(DEG)
   		{
-  				return (Math.PI / 180) * DEG;
+  			return (Math.PI / 180) * DEG;
   		},
+
+        reflow: function()
+        {
+
+            if(this.options.autoSize)
+            {
+                this.origin_X = this.chart.width / 2;
+                this.origin_Y = 3 * this.chart.height / 4;
+                this.radius = 3 * this.chart.height / 8;
+            }
+
+            this.update();
+        }, 
 
     	update: function(data)
     	{
             //Update Data Values
-            this.min = (this.present(data.min)) ? data.min : this.min;
-            this.max = (this.present(data.max)) ? data.max : this.max;
-            this.goal = (this.present(data.goal)) ? data.goal : this.goal;
-            this.needleGood = (this.options.autoNeedle && typeof(data.needleGood) != "undefined") ? data.needleGood : true;
-            this.radius = (this.present(data.radius)) ? data.radius : this.radius;
-            this.origin_X = (this.present(data.x)) ? data.x : this.origin_X;
-            this.origin_Y = (this.present(data.y)) ? data.y : this.origin_Y;
+            if(this.present(data))
+            {
+                this.min = (this.present(data.min)) ? data.min : this.min;
+                this.max = (this.present(data.max)) ? data.max : this.max;
+                this.goal = (this.present(data.goal)) ? data.goal : this.goal;
+                this.needleGood = (this.options.autoNeedle && typeof(data.needleGood) != "undefined") ? data.needleGood : true;
+                this.radius = (this.present(data.radius)) ? data.radius : this.radius;
+                this.origin_X = (this.present(data.x)) ? data.x : this.origin_X;
+                this.origin_Y = (this.present(data.y)) ? data.y : this.origin_Y;
 
-            //Animate New Value 
-            var newValue = data.value;
-        
-    		var animate = setInterval(function(){
+                //Animate New Value 
+                var newValue = data.value;
+            
+                var animate = setInterval(function(){
 
-    			this.draw();
+                    this.draw();
 
-    			if(newValue < this.value)
-    			{
-    				 this.value--;
-    			}
-    			else
-    			{
-    				 this.value++;
-    			}
+                    if(newValue < this.value)
+                    {
+                         this.value--;
+                    }
+                    else
+                    {
+                         this.value++;
+                    }
 
-    			this.setValues();
+                    this.setValues();
 
-    			if(this.value == newValue)
-    			{
-    				 clearInterval(animate);
-    			}
+                    if(this.value == newValue)
+                    {
+                         clearInterval(animate);
+                    }
 
-    		}.bind(this), 1);
+                }.bind(this), 1);
+            }
+            else
+            {
+                this.draw();
+            }
 
     	},
 

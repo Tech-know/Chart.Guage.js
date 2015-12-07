@@ -57,7 +57,7 @@
             //Auto Size the Guage 
             //- If false X,Y and Radius values must be provided
             //- As well responsive resizing will not work
-            autoSize: true,
+            autoCenter: true,
 
 	}
 
@@ -76,10 +76,17 @@
     		this.min = data.min;
     		this.max = data.max;
     		this.goal = data.goal;
-    		this.value = 0; 
-    		this.radius = this.present(data.radius) && !this.options.autoSize ? data.radius : this.radius = 3 * this.chart.height / 8;
-    		this.origin_X = this.present(data.x) && !this.options.autoSize ? data.x : this.chart.width / 2;
-    		this.origin_Y = this.present(data.y) && !this.options.autoSize ? data.y : 3 * this.chart.height / 4;
+    		this.value = 0;
+
+            if(this.options.autoCenter)
+            {
+                this.setLocation();
+            }
+
+    		this.radius = this.present(data.radius) && !this.options.autoCenter ? data.radius : this.radius;
+    		this.origin_X = this.present(data.x) && !this.options.autoCenter ? data.x : this.origin_X;
+    		this.origin_Y = this.present(data.y) && !this.options.autoCenter ? data.y : this.origin_Y;
+
     		this.guageWeight = this.options.guageWeight;
     		this.LineColor = this.options.guageLineColor;
     		this.GoalColor = this.options.guageGoalColor;
@@ -119,14 +126,27 @@
   			return (Math.PI / 180) * DEG;
   		},
 
+        setLocation: function()
+        {
+            this.origin_X = this.chart.width / 2;
+            this.radius = 3 * this.chart.height / 8;
+
+            if(this.chart.height >= 130)
+            {
+                this.origin_Y = this.chart.height - 40;
+            }
+            else
+            {
+                this.origin_Y = 3 * this.chart.height / 4;
+            }
+        },
+
         reflow: function()
         {
 
-            if(this.options.autoSize)
+            if(this.options.autoCenter)
             {
-                this.origin_X = this.chart.width / 2;
-                this.origin_Y = 3 * this.chart.height / 4;
-                this.radius = 3 * this.chart.height / 8;
+                this.setLocation();
             }
 
             this.update();
@@ -179,18 +199,21 @@
 
         lables: function(ctx)
         {   
-            //Main Number
-            ctx.font = "26px Arial";
-            ctx.textAlign = "center";
-            ctx.fillStyle = this.LineColor;
-            ctx.fillText(this.value, this.origin_X, this.origin_Y - this.radius - 15 );
+            if(this.chart.height >= 80)
+            {
+                //Main Number
+                ctx.font = (this.chart.height >= 130) ? "26px Arial" : this.chart.height / 6 + "px Arial";
+                ctx.textAlign = "center";
+                ctx.fillStyle = this.LineColor;
+                ctx.fillText(this.value, this.origin_X, this.origin_Y - this.radius - 15 );
 
-            //Max & Min
-            ctx.font = "12px Arial";
-            ctx.fillText(this.min, this.origin_X - this.radius, this.origin_Y + 15);
-            ctx.fillText(this.max, this.origin_X + this.radius, this.origin_Y + 15);
+                //Max & Min
+                ctx.font = "12px Arial";
+                ctx.fillText(this.min, this.origin_X - this.radius, this.origin_Y + 15);
+                ctx.fillText(this.max, this.origin_X + this.radius, this.origin_Y + 15);
+            }
 
-            if(this.options.displayPercent)
+            if(this.options.displayPercent && this.chart.height >= 130)
             {
                 //Percent
                 var percent = this.value / this.goal * 100;

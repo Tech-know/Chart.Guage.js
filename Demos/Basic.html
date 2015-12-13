@@ -23,9 +23,9 @@
 	//Init Data
 	var data = {
 		min: 0,
-		max: 200,
-		goal: 150,
-		value: 100,
+		max: 4000,
+		goal: 2500,
+		value: 146,
 		needleGood: false
 	};
 
@@ -37,7 +37,7 @@
 	}
 
 	//Initilize Guage
-	var myGuage = new Chart(ctx).Guage(data, options);
+	window.myGuage = new Chart(ctx).Guage(data, options);
 
 	function randomIntFromInterval(min,max)
 	{
@@ -58,6 +58,6 @@
 
 	}
 
-	var fake = setInterval(fakeInput, 5000);
+	//var fake = setInterval(fakeInput, 5000);
 </script>
 </html>

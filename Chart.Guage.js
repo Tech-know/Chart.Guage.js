@@ -4,7 +4,7 @@
  *
  * Copyright 2015 Scott Hill
  * Released under the MIT license
- * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
+ * https://github.com/Tech-know/Chart.Guage.js/blob/master/LICENSE
  */
 
  (function (factory) {
@@ -248,7 +248,7 @@
     				ctx.strokeStyle = this.GoalColor;
     				ctx.stroke();
 
-    				if(this.value < this.max - (0.025 * this.max))
+    				if(this.needleAngle < 180 - this.needleGap / 2)
     				{
     					//Draw Goal Line from Gap
 	    				ctx.beginPath();
@@ -261,7 +261,7 @@
     		{
     				ctx.strokeStyle = this.LineColor;
 
-    				if(this.value > this.min + (0.025 * this.max))
+    				if(this.needleAngle > 0 + this.needleGap / 2)
     				{
 					    //Draw Standard Line to Gap
 	    				ctx.beginPath();

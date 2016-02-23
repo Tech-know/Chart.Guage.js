@@ -167,6 +167,7 @@
 
                 //Animate New Value 
                 var newValue = data.value;
+                var increment = Math.round(Math.abs(newValue - this.value) / 60);
             
                 var animate = setInterval(function(){
 
@@ -174,11 +175,11 @@
 
                     if(newValue < this.value)
                     {
-                         this.value--;
+                        this.value = (this.value - increment <= newValue) ? newValue : Math.round(this.value - increment);
                     }
                     else
                     {
-                         this.value++;
+                        this.value = (this.value + increment >= newValue) ? newValue : Math.round(this.value + increment);
                     }
 
                     this.setValues();
@@ -188,7 +189,7 @@
                          clearInterval(animate);
                     }
 
-                }.bind(this), 1);
+                }.bind(this), 1000/60);
             }
             else
             {
